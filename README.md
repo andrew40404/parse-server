@@ -166,3 +166,5 @@ If you use a previous container image (previous to **3.1.2-r14** for Parse or **
 ```sh
 $ helm upgrade my-release bitnami-ibm/parse --set server.securityContext.enabled=false,das
 ```
+The installation is done. Enjoy!
+
