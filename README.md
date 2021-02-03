@@ -61,9 +61,6 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 
 ```sh
 $ helm repo add bitnami-ibm https://charts.bitnami.com/ibm
-```
-
-```sh
 $ helm install my-release bitnami-ibm/parse
 ```
 
@@ -104,7 +101,7 @@ In case you want to add extra environment variables (useful for advanced operati
 
 extraEnvVars:
 
- \- name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
+ - name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
 
    value: true
 
@@ -120,40 +117,21 @@ Extra objects to deploy (value evaluated as a template)
 
 ```sh
 extraDeploy: |-
-```
-
- ```sh
 \- apiVersion: rbac.authorization.k8s.io/v1
- ```
-
-   ```sh
 kind: RoleBinding
-   ```
-
-  ```sh
 metadata:
 name: {{ include "common.names.fullname" . }}-privileged
-
 namespace: {{ .Release.Namespace }}
-
 labels: {{- include "common.labels.standard" . | nindent 6 }}
-
 roleRef:
-
 apiGroup: rbac.authorization.k8s.io
-
 kind: ClusterRole
-
 name: cluster-admin
-
 subjects:
-
 \- kind: ServiceAccount
-
    name: default
-
    namespace: {{ .Release.Namespace }}
-  ```
+```
 
 Both container images and chart can be upgraded by running the command below:
 
