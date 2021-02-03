@@ -101,9 +101,9 @@ In case you want to add extra environment variables (useful for advanced operati
 
 extraEnvVars:
 
- - name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
+    name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
 
-   value: true
+    value: true
 
 Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the extraEnvVarsCM or the extraEnvVarsSecret values.
 
