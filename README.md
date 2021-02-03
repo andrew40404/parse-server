@@ -1,6 +1,6 @@
-# Installing Node Exporter on IBM Cloud
+# Installing Parse Server on IBM Cloud
 
-This document will describe how to install Node Exporter on IBM Cloud using Kubernetes services.
+This document will describe how to install Parse Server on IBM Cloud using Kubernetes services.
 
 **Step 1 provision Kubernetes Cluster**
 
@@ -71,100 +71,120 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 
 
 
-# **Step 3 **Installing **Node Exporter**
+# **Step 3 **Installing Parse Server
 
-The [node exporter](https://github.com/prometheus/node_exporter) can read system-level statistics about bare-metal nodes or virtual machines and export them for Prometheus.
-
-Using a [DaemonSet](http://kubernetes.io/docs/admin/daemons/), Kubernetes can run one node exporter per cluster node, and expose the node exporter as a service.
-
-Download the [node exporter daemon set manifest](https://coreos.com/assets/blog/promk8s/node-exporter.yaml) and deploy it:
+**Helm Charts to deploy Parse Server in Kubernetes**
 
 ```sh
-$ kubectl create -f node-exporter.yaml
+$ helm repo add bitnami-ibm https://charts.bitnami.com/ibm
 ```
 
 ```sh
-daemonset "node-exporter" created
+$ helm install my-release bitnami-ibm/parse
 ```
 
-Verify that four node exporter pods have been started:
+**To reserve a public IP address on GKE:**
 
 ```sh
-$ kubectl **get** pods
+$ gcloud compute addresses create parse-public-ip
 ```
+
+**Parameters**
+
+The following table lists the configurable parameters of the Parse chart and their default values.
+
+Global Parameters
+
+
+
+| **Parameter**           | **Description**                                 | **Default**                                           |
+| ----------------------- | ----------------------------------------------- | ----------------------------------------------------- |
+| global.imageRegistry    | Global Docker image registry                    | nil                                                   |
+| global.imagePullSecrets | Global Docker registry secret names as an array | [] (does not add image pull secrets to deployed pods) |
+| global.storageClass     | Global storage class for dynamic provisioning   | nil                                                   |
+
+**Deploy your Cloud functions with Parse Cloud Code**
+
+The [Bitnami Parse](https://github.com/bitnami/bitnami-docker-parse) image allows you to deploy your Cloud functions with Parse Cloud Code (a feature which allows running a piece of code in your Parse Server instead of the user's mobile devices). 
+
+To add your custom scripts, they must be located inside the chart folder files/cloud so they can be consumed as a ConfigMap.
+
+Alternatively, you can specify custom scripts using the cloudCodeScripts parameter as dict.
+
+In addition to these options, you can also set an external ConfigMap with all the Cloud Code scripts. This is done by setting the existingCloudCodeScriptsCM parameter.
+
+Note that this will override the two previous options.
+
+Adding extra environment variables
+
+In case you want to add extra environment variables (useful for advanced operations like custom init scripts), you can use the extraEnvVars (available in the server and dashboard sections) property.
+
+extraEnvVars:
+
+ \- name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
+
+   value: true
+
+Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the extraEnvVarsCM or the extraEnvVarsSecret values.
+
+**Deploying Extra Resources**
+
+There are cases where you may want to deploy extra objects, such as KongPlugins, KongConsumers, amongst others. For this case, the chart allows adding the full specification of other objects using the extraDeploy parameter.
+
+The following example would activate a plugin at deployment time.
+
+Extra objects to deploy (value evaluated as a template)
 
 ```sh
-NAME READY STATUS RESTARTS AGE
+extraDeploy: |-
 ```
+
+ ```sh
+\- apiVersion: rbac.authorization.k8s.io/v1
+ ```
+
+   ```sh
+kind: RoleBinding
+   ```
+
+  ```sh
+metadata:
+name: {{ include "common.names.fullname" . }}-privileged
+
+namespace: {{ .Release.Namespace }}
+
+labels: {{- include "common.labels.standard" . | nindent 6 }}
+
+roleRef:
+
+apiGroup: rbac.authorization.k8s.io
+
+kind: ClusterRole
+
+name: cluster-admin
+
+subjects:
+
+\- kind: ServiceAccount
+
+   name: default
+
+   namespace: {{ .Release.Namespace }}
+  ```
+
+​     
+
+Both container images and chart can be upgraded by running the command below:
 
 ```sh
-node-exporter-4r4vq 1/1 Running 0 1m
+$ helm upgrade my-release bitnami-ibm/parse
 ```
+
+If you use a previous container image (previous to **3.1.2-r14** for Parse or **1.2.0-r69** for Parse Dashboard), disable the securityContext by running the command below:
 
 ```sh
-node-exporter-6n2ah 1/1 Running 0 1m
+$ helm upgrade my-release bitnami-ibm/parse --set server.securityContext.enabled=false,das
 ```
 
-```sh
-node-exporter-9x57u 1/1 *Running* 0 1m
-```
 
-```sh
-node-exporter-dk99a 1/1 Running 0 1m
-```
-
-```sh
-prometheus-1189099554-6ah3y 1/1 Running 0 1h
-```
-
-**Introduction**
-
-This chart bootstraps a prometheus [node exporter](http://github.com/prometheus/node_exporter) deployment on a [Kubernetes](http://kubernetes.io/) cluster using the [Helm](https://helm.sh/) package manager.
-
-**Installing the Chart**
-
-To install the chart with the release name my-release:
-
-```sh
-$ helm install --name my-release stable/prometheus-node-exporter
-```
-
-The command deploys node exporter on the Kubernetes cluster in the default configuration. The [configuration](https://github.com/helm/charts/tree/master/stable/prometheus-node-exporter#configuration) section lists the parameters that can be configured during installation.
-
-**Uninstalling the Chart**
-
-To uninstall/delete the *my-release* deployment:
-
-```sh
-$ helm delete my-release
-```
-
-The command removes all the Kubernetes components associated with the chart and deletes the release.
-
-**Upgrading Chart**
-
-```sh
-# Helm 3 or 2
-```
-
-```sh
-$ helm upgrade [RELEASE_NAME] [CHART] --install
-```
-
-## Configuring
-
-```sh
-# Helm 2
-```
-
-```sh
-$ helm inspect values prometheus-community/prometheus-node-exporter
-```
-
-```sh
-# Helm 3
-```
-
-```sh
-$ helm show values prometheus-community/prometheus-node-exporter
-```
+ 
