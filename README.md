@@ -117,7 +117,7 @@ Extra objects to deploy (value evaluated as a template)
 
 ```sh
 extraDeploy: |-
-\- apiVersion: rbac.authorization.k8s.io/v1
+ - apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
 name: {{ include "common.names.fullname" . }}-privileged
