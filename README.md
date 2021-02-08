@@ -1,4 +1,4 @@
-# Installing Parse Serveron IBM Cloud
+# Installing Parse Server on IBM Cloud
 
 This document will describe how to install Parse Server on IBM Cloud using Kubernetes services.
 
