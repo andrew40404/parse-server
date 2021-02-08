@@ -1,6 +1,8 @@
+# Installing Parse Serveron IBM Cloud
+
 This document will describe how to install Parse Server on IBM Cloud using Kubernetes services.
 
-**Step 1 - provision Kubernetes Cluster**
+**Step 1 - Provision Kubernetes Cluster**
 
 - Click the **Catalog** button on the top
 - Select **Service** from the **Catalog**
@@ -55,7 +57,7 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 - Click **install** and wait for the deployment
 
 
-# **Step 3 **Installing Parse Server
+**Step 3 **Installing Parse Server
 
 **Helm Charts to deploy Parse Server in Kubernetes**
 
@@ -115,7 +117,7 @@ The following example would activate a plugin at deployment time.
 
 Extra objects to deploy (value evaluated as a template)
 
-```sh
+```yaml
 extraDeploy: |-
  - apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
