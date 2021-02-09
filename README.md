@@ -57,7 +57,7 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 - Click **install** and wait for the deployment
 
 
-**Step 3 **Installing Parse Server
+**Step 3 Installing Parse Server**
 
 **Helm Charts to deploy Parse Server in Kubernetes**
 
@@ -82,7 +82,7 @@ Global Parameters
 | **Parameter**           | **Description**                                 | **Default**                                           |
 | ----------------------- | ----------------------------------------------- | ----------------------------------------------------- |
 | global.imageRegistry    | Global Docker image registry                    | nil                                                   |
-| global.imagePullSecrets | Global Docker registry secret names as an array | [] (does not add image pull secrets to deployed pods) |
+| global.imagePullSecrets | Global Docker registry secret names as an array | (does not add image pull secrets to deployed pods)    |
 | global.storageClass     | Global storage class for dynamic provisioning   | nil                                                   |
 
 **Deploy your Cloud functions with Parse Cloud Code**
