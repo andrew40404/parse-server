@@ -2,16 +2,15 @@
 
 This document will describe how to install Parse Server on IBM Cloud using Kubernetes services.
 
-**Step 1 - Provision Kubernetes Cluster**
+## Step 1 - Provision Kubernetes Cluster
 
 - Click the **Catalog** button on the top
 - Select **Service** from the **Catalog**
 - Search for **Kubernetes Service** and click on it
 
-  ![Node Exporter2](https://user-images.githubusercontent.com/5286796/106587901-2d8eae00-6570-11eb-9006-eaace4f27f60.png)
+![Node Exporter2](https://user-images.githubusercontent.com/5286796/106587901-2d8eae00-6570-11eb-9006-eaace4f27f60.png)
 
 - You are now at the Kubernetes deployment page. You need to specify some information about the cluster.
-
 - Choose either of the following plans; **standard** or **free**. The free plan only have one worker node and no subnet. To provision a standard cluster. You will need to upgrade your account to Pay-As-You-Go
 - To upgrade to a Pay-As-You-Go account, complete the following steps:
 - In the console, go to Manage > Account.
@@ -19,7 +18,7 @@ This document will describe how to install Parse Server on IBM Cloud using Kuber
 - Enter your payment information, click Next, and submit your information
 - Choose **classic** or **VPC** , read the docs and choose the most suitable type for yourself
 
-  ![Node Exporter1](https://user-images.githubusercontent.com/5286796/106587895-2cf61780-6570-11eb-88a3-733e5c110279.png)
+![Node Exporter1](https://user-images.githubusercontent.com/5286796/106587895-2cf61780-6570-11eb-88a3-733e5c110279.png)
 
 - Now choose your location settings,
 - Choose **Geography** (continent)
@@ -44,7 +43,7 @@ This document will describe how to install Parse Server on IBM Cloud using Kuber
 - Wait for your cluster to be provisioned
 - Your cluster is ready for usage
 
-**Step 2 Deploy IBM Cloud Block Storage plug-in**
+## Step 2 Deploy IBM Cloud Block Storage plug-in
 
 The Block Storage plug-in is a persistent, high-performance iSCSI storage that you can add to your apps by using Kubernetes Persistent Volumes (PVs).
 
@@ -57,22 +56,22 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 - Click **install** and wait for the deployment
 
 
-**Step 3 Installing Parse Server**
+## Step 3 Installing Parse Server
 
-**Helm Charts to deploy Parse Server in Kubernetes**
+## Helm Charts to deploy Parse Server in Kubernetes
 
 ```sh
 $ helm repo add bitnami-ibm https://charts.bitnami.com/ibm
 $ helm install my-release bitnami-ibm/parse
 ```
 
-**To reserve a public IP address on GKE:**
+## To reserve a public IP address on GKE:
 
 ```sh
 $ gcloud compute addresses create parse-public-ip
 ```
 
-**Parameters**
+## Parameters
 
 The following table lists the configurable parameters of the Parse chart and their default values.
 
@@ -85,7 +84,7 @@ Global Parameters
 | global.imagePullSecrets | Global Docker registry secret names as an array | (does not add image pull secrets to deployed pods)    |
 | global.storageClass     | Global storage class for dynamic provisioning   | nil                                                   |
 
-**Deploy your Cloud functions with Parse Cloud Code**
+## Deploy your Cloud functions with Parse Cloud Code
 
 The [Bitnami Parse](https://github.com/bitnami/bitnami-docker-parse) image allows you to deploy your Cloud functions with Parse Cloud Code (a feature which allows running a piece of code in your Parse Server instead of the user's mobile devices). 
 
@@ -109,7 +108,7 @@ extraEnvVars:
 
 Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the extraEnvVarsCM or the extraEnvVarsSecret values.
 
-**Deploying Extra Resources**
+## Deploying Extra Resources
 
 There are cases where you may want to deploy extra objects, such as KongPlugins, KongConsumers, amongst others. For this case, the chart allows adding the full specification of other objects using the extraDeploy parameter.
 
