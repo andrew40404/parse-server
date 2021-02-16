@@ -58,20 +58,14 @@ The Block Storage plug-in is a persistent, high-performance iSCSI storage that y
 
 ## Step 3 Installing Parse Server
 
-## Helm Charts to deploy Parse Server in Kubernetes
+### Helm Charts to deploy Parse Server in Kubernetes
 
 ```sh
 $ helm repo add bitnami-ibm https://charts.bitnami.com/ibm
 $ helm install my-release bitnami-ibm/parse
 ```
 
-## To reserve a public IP address :
-
-```sh
-$ ibmcloud compute addresses create parse-public-ip
-```
-
-## Parameters
+### Parameters
 
 The following table lists the configurable parameters of the Parse chart and their default values.
 
@@ -84,7 +78,7 @@ Global Parameters
 | global.imagePullSecrets | Global Docker registry secret names as an array | (does not add image pull secrets to deployed pods)    |
 | global.storageClass     | Global storage class for dynamic provisioning   | nil                                                   |
 
-## Deploy your Cloud functions with Parse Cloud Code
+### Deploy your Cloud functions with Parse Cloud Code
 
 The [Bitnami Parse](https://github.com/bitnami/bitnami-docker-parse) image allows you to deploy your Cloud functions with Parse Cloud Code (a feature which allows running a piece of code in your Parse Server instead of the user's mobile devices). 
 
@@ -110,7 +104,7 @@ extraEnvVars:
 
 Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the extraEnvVarsCM or the extraEnvVarsSecret values.
 
-## Deploying Extra Resources
+### Deploying Extra Resources
 
 There are cases where you may want to deploy extra objects, such as KongPlugins, KongConsumers, amongst others. For this case, the chart allows adding the full specification of other objects using the extraDeploy parameter.
 
