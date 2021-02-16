@@ -65,10 +65,10 @@ $ helm repo add bitnami-ibm https://charts.bitnami.com/ibm
 $ helm install my-release bitnami-ibm/parse
 ```
 
-## To reserve a public IP address on GKE:
+## To reserve a public IP address :
 
 ```sh
-$ gcloud compute addresses create parse-public-ip
+$ ibmcloud compute addresses create parse-public-ip
 ```
 
 ## Parameters
@@ -100,11 +100,13 @@ Adding extra environment variables
 
 In case you want to add extra environment variables (useful for advanced operations like custom init scripts), you can use the extraEnvVars (available in the server and dashboard sections) property.
 
+```yaml
 extraEnvVars:
 
     name: PARSE_SERVER_ALLOW_CLIENT_CLASS_CREATION
 
     value: true
+```
 
 Alternatively, you can use a ConfigMap or a Secret with the environment variables. To do so, use the extraEnvVarsCM or the extraEnvVarsSecret values.
 
